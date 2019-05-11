@@ -42,5 +42,5 @@ Get data from ImageJ Colony Counting plugin into octave:
 * Run octave-cli (example):
   * [csvROIs] = ReadImageJROI("photos/600px-E.coliAgarpicture.jpg-RoiSet.zip");
 * Example: Access coordinates of ROI curve for first colony in list
-  * cvsROIs(1){1}.mnCoordinates
+  * csvROIs(1){1}.mnCoordinates
   * Save to file: csvwrite("data.csv", csvROIs(1){1}.mnCoordinates)
