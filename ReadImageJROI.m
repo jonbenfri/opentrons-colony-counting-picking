@@ -166,7 +166,7 @@ end
 
 if (iscell(cstrFilenames))
    % - Read each ROI in turn
-   cvsROI = cellfun(@ReadImageJROI, CellFlatten(cstrFilenames), 'UniformOutput', false);
+   cvsROI = cellfun("ReadImageJROI", CellFlatten(cstrFilenames), 'UniformOutput', false);
    
    % - Return all ROIs
    sROI = cvsROI;
@@ -478,26 +478,45 @@ fclose(fidROI);
       % Usage: [filelist] = listzipcontents_rois(zipFilename)
       
       % - Import java libraries
-      import java.util.zip.*;
-      import java.io.*;
-      
+      % import java.util.zip.*;
+      % import java.io.*;
+
       % - Read file list via JAVA object
       filelist={};
-      in = ZipInputStream(FileInputStream(zipFilename));
-      entry = in.getNextEntry();
-      
+      fStream = javaObject("java.io.FileInputStream", zipFilename);
+      % in = ZipInputStream(FileInputStream(zipFilename));
+      in = javaObject("java.util.zip.ZipInputStream", fStream);
+      % entry = in.getNextEntry();
+      entry = javaMethod("getNextEntry", in);
+      % entry_str = char(javaMethod("toString", entry));
+      entry_str = char(entry);
+
+
       % - Filter ROI files
-      while (entry~=0)
-         name = entry.getName;
-         if (name.endsWith('.roi')) && (~name.startsWith('__MACOSX'))
+      % while (entry ~= 0)
+      while (~isempty(entry_str))
+          entry_str
+         % name = entry.getName;
+         name = entry_str;
+         is_roi = strncmpi(fliplr('.roi'), fliplr(entry_str), 4);
+         % if (name.endsWith('.roi'))
+         if (is_roi);
             filelist = cat(1,filelist,char(name));
          end;
-         entry = in.getNextEntry();
+         % entry = in.getNextEntry();
+          try
+              entry = javaMethod("getNextEntry", in);
+              entry_str = char(entry);
+          catch
+              % end of zip file list
+              entry_str = "";
+          end;
       end;
-      
-      % - Close zip file
-      in.close();
-   end
+	  % - Close zip file
+	  % in.close();   
+	  javaMethod("close", in);
+
+   end;
 
 
    function [cellArray] = CellFlatten(varargin)
