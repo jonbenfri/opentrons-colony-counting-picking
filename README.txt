@@ -23,7 +23,10 @@ Colony Counting and Picking
   * Returns list of colonies with (x,y,z) coordinates
 
 * Adjust agar plate labware object to include (x,y,z) coordinates of each colony
-  * `plate.colonies('1')`
+  * Intuitive interface can be something like: `plate.colonies('1')`
+  OR
+  * Take image of agar plate, each pixel is a "well" e.g. 800 x 600 image = 480000 wells
+  * Use center of mass for each colony (e.g. move_to plate.colonies('1') will go to center of mass)
 
 
 =====
