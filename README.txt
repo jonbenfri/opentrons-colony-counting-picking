@@ -40,4 +40,7 @@ Get data from ImageJ Colony Counting plugin into octave:
 * Run ImageJ on plate image, close ImageJ
 * Regions of Interest (ROI) zip file is generated
 * Run octave-cli (example):
-  * [cvsROIs] = ReadImageJROI("photos/600px-E.coliAgarpicture.jpg-RoiSet.zip");
+  * [csvROIs] = ReadImageJROI("photos/600px-E.coliAgarpicture.jpg-RoiSet.zip");
+* Example: Access coordinates of ROI curve for first colony in list
+  * cvsROIs(1){1}.mnCoordinates
+  * Save to file: csvwrite("data.csv", csvROIs(1){1}.mnCoordinates)
