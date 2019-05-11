@@ -478,32 +478,23 @@ fclose(fidROI);
       % Usage: [filelist] = listzipcontents_rois(zipFilename)
       
       % - Import java libraries
-      % import java.util.zip.*;
-      % import java.io.*;
 
       % - Read file list via JAVA object
       filelist={};
       fStream = javaObject("java.io.FileInputStream", zipFilename);
-      % in = ZipInputStream(FileInputStream(zipFilename));
       in = javaObject("java.util.zip.ZipInputStream", fStream);
-      % entry = in.getNextEntry();
       entry = javaMethod("getNextEntry", in);
-      % entry_str = char(javaMethod("toString", entry));
       entry_str = char(entry);
 
 
       % - Filter ROI files
-      % while (entry ~= 0)
       while (~isempty(entry_str))
-          entry_str
          % name = entry.getName;
          name = entry_str;
          is_roi = strncmpi(fliplr('.roi'), fliplr(entry_str), 4);
-         % if (name.endsWith('.roi'))
          if (is_roi);
             filelist = cat(1,filelist,char(name));
          end;
-         % entry = in.getNextEntry();
           try
               entry = javaMethod("getNextEntry", in);
               entry_str = char(entry);
