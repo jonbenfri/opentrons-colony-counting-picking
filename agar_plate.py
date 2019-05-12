@@ -34,11 +34,11 @@ except:
 # Declare agar_plate labware
 # Strategy 1: Align plate(s) to grid or do 1x1 well plate,
 #    use vector in move_to relative to center of dish
-# Strategy 2: Each pixel is a well, create `colony` method
-#    to access plate colonies, e.g. `plate.colony('1')`
+# Strategy 2: Each pixel is a well
+
 
 # Strategy 1:
-plate_name = '75mm_agar_plate'
+plate_name = '50mm_agar_plate'
 if plate_name not in labware.list():
     custom_plate = labware.create(
             plate_name,
@@ -56,3 +56,7 @@ except:
 
 # Do a test transfer
 p300.transfer(10, plate.wells('A1'), plate.wells('A1'))
+
+# TODO:
+# create `colony` method to access plate colonies,
+# e.g. `plate.colonies('1')` will go to center of mass
